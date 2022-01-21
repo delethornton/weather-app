@@ -16,14 +16,14 @@ class WeatherInfoCard extends React.Component {
                 {weatherData.name}, {weatherData.sys.country}
               </li>
               <li>
-                {weatherData.coord.lat ?? 12}, {weatherData.coord.lon ?? 23}
+                {weatherData.coord.lat} Lat., {weatherData.coord.lon} Lon.
               </li>
               <li>
                 {weatherData.weather[0].main} and{' '}
                 {weatherData.weather[0].description}
               </li>
-              <li>{weatherData.main.temp}</li>
-              <li>Wind Speed: {weatherData.wind.speed}</li>
+              <li>{weatherData.main.temp} &deg;F</li>
+              <li>Wind Speed: {weatherData.wind.speed} mph</li>
             </ul>
           </div>
           <p>Not your city?</p>

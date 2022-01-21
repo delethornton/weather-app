@@ -21,7 +21,7 @@ class Main extends React.Component {
     }
     console.log('The main component mounted.');
   }
-  fetchWeatherData(lat = undefined, lon = undefined, city = undefined) {
+  fetchWeatherData(lat, lon, city = undefined) {
     const fetchURL =
       lat && lon
         ? `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=1bc55e140b5483d414b6ca4597e49138`
@@ -32,11 +32,15 @@ class Main extends React.Component {
         return data.json();
       })
       .then((dataJSON) => {
-        const weatherData = dataJSON;
-        this.setState({ weatherData });
+        if (dataJSON.cod === '404') {
+          throw new Error('City not found.');
+        } else {
+          const weatherData = dataJSON;
+          this.setState({ weatherData });
+        }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
         console.log('Problem fetching data.');
       });
     console.log('Fetching weather data');
@@ -53,7 +57,7 @@ class Main extends React.Component {
       <main>
         <WeatherInfoCard weatherData={this.state.weatherData}></WeatherInfoCard>
         <form onSubmit={this.handleSubmit}>
-          <input type="search" placeholder="City Name"></input>
+          <input required type="search" placeholder="City Name"></input>
           <input type="submit" value="Get Weather"></input>
         </form>
       </main>
